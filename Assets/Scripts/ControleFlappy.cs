@@ -39,6 +39,7 @@ public class ControleFlappy : MonoBehaviour
     public TextMeshProUGUI titreFin;
     public TextMeshProUGUI lePointage;
 
+    int score = 0;
 
     private void Start()
     {
@@ -105,6 +106,7 @@ public class ControleFlappy : MonoBehaviour
             }
             else
             {
+              
                 partieTerminee = true;
                 //il peut tourner
                 GetComponent<Rigidbody2D>().freezeRotation = false;
@@ -132,6 +134,11 @@ public class ControleFlappy : MonoBehaviour
 
             //Son qui joue une seule fois
             GetComponent<AudioSource>().PlayOneShot(sonPieceOr);
+
+            score +=5;
+            // Mettre à jour l'affichage du score
+            lePointage.text = "Score: " + score.ToString();
+            
         }
         if (collisionsFlappy.gameObject.name == "PackVie")
         {
@@ -196,4 +203,5 @@ public class ControleFlappy : MonoBehaviour
     {
         SceneManager.LoadScene("ControleFlappy");
     }
+
 }
