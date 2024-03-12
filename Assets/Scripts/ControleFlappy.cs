@@ -13,7 +13,6 @@ public class ControleFlappy : MonoBehaviour
     public float vitesseY;
 
     //variables pour enregistrer le Sprite de Flappy après les collisions
-
     public Sprite mortHaut;
     public Sprite mortBas;
     public Sprite vieHaut;
@@ -23,6 +22,7 @@ public class ControleFlappy : MonoBehaviour
     public GameObject pieceOr;
     public GameObject packVie;
     public GameObject leChampignon;
+    public GameObject laGrille;
 
 
     //variables pour déclencher les sons
@@ -33,13 +33,18 @@ public class ControleFlappy : MonoBehaviour
 
     public AudioClip sonFinPartie;
 
+    //Valeurs booléennes pour déterminée si le jeu est terminé
     public bool flappyBlesse;
     public bool partieTerminee;
 
-    public TextMeshProUGUI titreFin;
+    //Création des titres
+    public TextMeshProUGUI texteFin;
     public TextMeshProUGUI lePointage;
+   
+
 
     int score = 0;
+
 
     private void Start()
     {
@@ -75,6 +80,7 @@ public class ControleFlappy : MonoBehaviour
                     GetComponent<SpriteRenderer>().sprite = mortBas;
                 }
             }
+            //Controle du Sprite de Flappu quand il monte selon s'il est blessé
             if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
             {
                 if(flappyBlesse == false)
@@ -86,6 +92,13 @@ public class ControleFlappy : MonoBehaviour
                     GetComponent<SpriteRenderer>().sprite = mortHaut;
                 }
             }
+            texteFin.enabled = false;
+        }
+        if(partieTerminee == true)
+        {
+            //On fait apparaitre le texte de la fin
+            texteFin.enabled = true;
+            
         }
 
     }
@@ -93,10 +106,8 @@ public class ControleFlappy : MonoBehaviour
     //Fonction pour détecter les collisions entre Flappy et les gameObjects
     void OnCollisionEnter2D(Collision2D collisionsFlappy)
     {
-        //si Flappy n'est pas blessé (la variable FlappyBlesse est false) alors :
-        //on mémorise que Flappy est blessé(FlappyBlesse devient true)
 
-        if (collisionsFlappy.gameObject.name == "Colonne")
+        if (collisionsFlappy.gameObject.name == "Colonne" || collisionsFlappy.gameObject.name == "Decor")
         {
             if (flappyBlesse == false)
             {
@@ -106,17 +117,28 @@ public class ControleFlappy : MonoBehaviour
             }
             else
             {
-              
+                //La partie est terminée
                 partieTerminee = true;
+
                 //il peut tourner
                 GetComponent<Rigidbody2D>().freezeRotation = false;
+
                 //Ajout d'une vitesse angulaire
                 GetComponent<Rigidbody2D>().angularVelocity = 100;
+
                 //Désactive le collider de flappy
                 GetComponent<Collider2D>().enabled = false;
+
                 //Son fin de partie
                 GetComponent<AudioSource>().PlayOneShot(sonFinPartie, 2f);
                 Invoke("RecommencerJeu", 3f);
+
+                //- 10 dans le pointage
+                score -= 5;
+
+                // Mettre à jour l'affichage du score
+                lePointage.text = "Pointage: " + score.ToString();
+
             }
 
             //Son qui joue une seule fois
@@ -135,10 +157,16 @@ public class ControleFlappy : MonoBehaviour
             //Son qui joue une seule fois
             GetComponent<AudioSource>().PlayOneShot(sonPieceOr);
 
+            //+ 5 dans le pointage
             score +=5;
+
             // Mettre à jour l'affichage du score
-            lePointage.text = "Score: " + score.ToString();
-            
+            lePointage.text = "Pointage: " + score.ToString();
+
+            //Animation de la grille
+            laGrille.GetComponent<Animator>().enabled = true;
+            Invoke("DesactiverGrille", 4f);
+
         }
         if (collisionsFlappy.gameObject.name == "PackVie")
         {
@@ -155,6 +183,12 @@ public class ControleFlappy : MonoBehaviour
 
             //Son qui joue une seule fois
             GetComponent<AudioSource>().PlayOneShot(sonPackVie);
+
+            //+ 5 dans le pointage
+            score += 5;
+
+            // Mettre à jour l'affichage du score
+            lePointage.text = "Pointage: " + score.ToString();
         }
         if (collisionsFlappy.gameObject.name == "Champignon")
         {
@@ -171,6 +205,12 @@ public class ControleFlappy : MonoBehaviour
 
             //Son qui joue une seule fois
             GetComponent<AudioSource>().PlayOneShot(sonChampignon);
+            
+            //+ 10 dans le pointage
+            score += 10;
+
+            // Mettre à jour l'affichage du score
+            lePointage.text = "Pointage: " + score.ToString();
         }
 
     }
@@ -204,4 +244,8 @@ public class ControleFlappy : MonoBehaviour
         SceneManager.LoadScene("ControleFlappy");
     }
 
+    private void DesactiverGrille()
+    {
+        laGrille.GetComponent<Animator>().enabled = false;
+    }
 }

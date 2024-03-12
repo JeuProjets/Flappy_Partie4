@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Flappy4.1.unity
     guid: a9cb5e77ce4ab034fb73dbf8c04e90a3
+  - enabled: 1
+    path: Assets/Scenes/Flappy5.unity
+    guid: 4874bfb3c89a20f4198be75f66f2d21e
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

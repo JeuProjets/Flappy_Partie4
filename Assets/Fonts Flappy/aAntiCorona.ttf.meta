@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1bf40909e2b69784fab7c560bd3b7027
+guid: 36dbffba660a7954db60a434c862acbb
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - BadaBoom BB
+  - a Anti Corona
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
