@@ -92,6 +92,7 @@ public class ControleFlappy : MonoBehaviour
                     GetComponent<SpriteRenderer>().sprite = mortHaut;
                 }
             }
+            //Le texte de la fin n'apparait pas
             texteFin.enabled = false;
         }
         if(partieTerminee == true)
@@ -113,6 +114,7 @@ public class ControleFlappy : MonoBehaviour
             {
                 //On change l'image de Flappy
                 GetComponent<SpriteRenderer>().sprite = mortHaut;
+                //On met la variable de flappy blessé à true
                 flappyBlesse = true;
             }
             else
@@ -238,12 +240,12 @@ public class ControleFlappy : MonoBehaviour
         //on réduit sa taille quand il apparait
         transform.localScale /= 1.3f;
     }
-
+    //Fonction pour recommencer le jeu, on charge la scène qui controle flappy
     private void RecommencerJeu()
     {
         SceneManager.LoadScene("ControleFlappy");
     }
-
+    //Fonction qui désactive la grille
     private void DesactiverGrille()
     {
         laGrille.GetComponent<Animator>().enabled = false;
